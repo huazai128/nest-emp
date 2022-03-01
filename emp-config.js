@@ -7,8 +7,8 @@ const { join, resolve } = require('path')
   webpack() {
     return {
       devServer: {
-        port: 8080,
-        devMiddleware: {
+        port: 8083,
+        devMiddleware: { // 这里是开启，就本地访问不了
           index: true,
           mimeTypes: { phtml: 'text/html' },
           publicPath: './dist/client',
@@ -28,8 +28,7 @@ const { join, resolve } = require('path')
           template: resolve('./views/index.html'),
           ...{
             title: '马克水印相机管理后台',
-            files: {
-            }
+            files: {}
           },
         }
         return args
