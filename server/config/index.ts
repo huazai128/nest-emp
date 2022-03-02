@@ -1,13 +1,14 @@
 import { resolve, join } from 'path'
 import { environment } from '@app/app.env'
 import { ConfigServer } from '@app/interfaces/config.server'
+import session from 'express-session'
 
 const conf = require(resolve(__dirname, `./config.${environment}`))
 
 export const config: ConfigServer = conf
 
 export const APP = {
-    PORT: 8000,
+    PORT: 3002,
     DEFAULT_CACHE_TTL: 60 * 60 * 24,
 }
 
@@ -24,3 +25,15 @@ export const REDIS = {
 }
 
 export const COOKIE_KEY = '@get-cookie-1212-dffas'
+
+// session 配置
+export const SESSION: session.SessionOptions = {
+    secret: 'sup3rs3cr3t',
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        sameSite: true,
+        httpOnly: false,
+        maxAge: 24 * 60 * 60 * 1000,
+    },
+}

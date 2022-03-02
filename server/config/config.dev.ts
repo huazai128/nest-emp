@@ -7,10 +7,7 @@ const config: ConfigServer = {
 
     // 代理接口
     apiPrefix: {
-        baseApi: 'http://ufw.dev1.qlchat.com',
-        innerCouponApi: 'http://inner.coupon.dev1.qlchat.com',
-        innerApi: 'http://inner.dev1.qlchat.com',
-
+        baseApi: '',
     },
 
     /* redis相关配置 */
@@ -21,7 +18,7 @@ const config: ConfigServer = {
         'host': '211.159.219.193',
         'no_ready_check': true,
         'password': 'WdPTMj6X',
-        'username': '...'
+        'username': ''
     },
 
     lruMaxAge: 1,

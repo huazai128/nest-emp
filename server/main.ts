@@ -5,7 +5,7 @@ import { getServerIp } from '@app/utils/util';
 import { join, resolve } from 'path';
 import { isDevEnv } from '@app/app.env';
 import rateLimit from 'express-rate-limit'
-import { COOKIE_KEY } from '@app/config';
+import { COOKIE_KEY, APP } from '@app/config';
 import { Request } from 'express';
 import { get } from 'lodash'
 import * as bodyParser from 'body-parser'
@@ -39,8 +39,8 @@ async function bootstrap() {
     })
     app.use(morgan(':remote-addr - [:userId] - :remote-user ":method :url HTTP/:http-version" ":referrer" ":user-agent" :status :res[content-length] - :response-time ms'))
 
-    await app.listen(3002);
-    console.log(`Application is running on: http://${getServerIp()}:3002`);
+    await app.listen(APP.PORT);
+    console.log(`Application is running on: http://${getServerIp()}:${APP.PORT}`);
 }
 
 bootstrap();

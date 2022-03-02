@@ -1,5 +1,5 @@
-import { Controller, Get, Render, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Render, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AppService } from './app.service';
 import { join } from 'path'
 
@@ -8,7 +8,8 @@ export class AppController {
     constructor(private readonly appService: AppService) { }
 
     @Get()
-    getHello(@Res() res: Response) {
-        return res.render(join(__dirname, "../client/index.html"), { data: 11 }) // webpack 已经解析ejs语法导致
+    getHello(@Req() req: Request, @Res() res: Response) {
+        // webpack 已经解析ejs语法导致， 数据无法被传递页面
+        return res.render(join(__dirname, "../client/index.html"), { data: 11 })
     }
 }
