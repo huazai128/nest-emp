@@ -10,7 +10,7 @@ import { createHash } from 'crypto';
 export function getServerIp() {
     const interfaces = networkInterfaces();
     for (const devName in interfaces) {
-        const iface = interfaces[devName];
+        const iface = interfaces[devName] as Array<any>;
         for (let i = 0; i < iface.length; i++) {
             const alias = iface[i];
             if (
