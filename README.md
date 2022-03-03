@@ -32,31 +32,17 @@
 $ npm install
 ```
 
-## Running the app
+## 本地运行 访问node接口
 
 ```bash
-# development
-$ npm run start
+# 运行h5
+$ npm run dev
 
 # watch mode
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
 
 ## Support
 

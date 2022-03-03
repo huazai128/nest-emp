@@ -5,7 +5,7 @@ const Hello = () => {
     return (
         <div className="App">
             <img src={logo} className="App-logo" alt="logo" />
-            <h1>Hello12</h1>
+            <h1>Hello1</h1>
         </div>
     )
 }

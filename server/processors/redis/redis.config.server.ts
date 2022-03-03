@@ -7,7 +7,7 @@ export class RedisConfigServer implements CacheOptionsFactory {
     // 重试策略
     private retryStrategy(retries: number): number | Error {
         const errorMessage = ['[Redis]', `retryStrategy！retries: ${retries}`]
-        console.error(...(errorMessage as [any]))
+        // console.error(...(errorMessage as [any]))
         if (retries > 6) {
             return new Error('[Redis] 尝试次数已达极限！')
         }

@@ -4,8 +4,8 @@ import { RedisServer } from '@app/processors/redis/redis.server';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SESSION } from '@app/config';
-import * as RedisStore from 'connect-redis';
-import * as session from 'express-session';
+import RedisStore from 'connect-redis';
+import session from 'express-session';
 
 @Module({
     imports: [RedisModule],

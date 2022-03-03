@@ -6,12 +6,15 @@ import { join, resolve } from 'path';
 import { isDevEnv } from '@app/app.env';
 import rateLimit from 'express-rate-limit'
 import { COOKIE_KEY, APP } from '@app/config';
+import { TransformInterceptor } from '@app/interceptors/transform.interceptor';
+import { LoggingInterceptor } from '@app/interceptors/logging.interceptor';
 import { Request } from 'express';
 import { get } from 'lodash'
+import logger from '@app/utils/logger';
 import * as bodyParser from 'body-parser'
 import * as compression from 'compression'
 import * as cookieParser from 'cookie-parser'
-import * as morgan from 'morgan'
+import morgan from 'morgan'
 import * as ejs from 'ejs'
 
 async function bootstrap() {
@@ -39,8 +42,15 @@ async function bootstrap() {
     })
     app.use(morgan(':remote-addr - [:userId] - :remote-user ":method :url HTTP/:http-version" ":referrer" ":user-agent" :status :res[content-length] - :response-time ms'))
 
+    app.useGlobalInterceptors(new TransformInterceptor(), new LoggingInterceptor())
+
     await app.listen(APP.PORT);
-    console.log(`Application is running on: http://${getServerIp()}:${APP.PORT}`);
+
+    if (isDevEnv) {
+        logger.debug('1212')
+        // logger.info(`Application is running on: http://${getServerIp()}:${APP.PORT}`);
+    }
+
 }
 
 bootstrap();

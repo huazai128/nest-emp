@@ -8,7 +8,6 @@ export class RedisServer {
     private isReadied = false
 
     constructor(@Inject(CACHE_MANAGER) cacheManager: Cache) {
-        // https://github.com/redis/node-redis#events
         this.cacheStore = cacheManager.store as RedisCacheStore
         this.cacheStore.client.on('connect', () => {
             console.info('[Redis]', 'connecting...')

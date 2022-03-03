@@ -10,6 +10,6 @@ export class AppController {
     @Get()
     getHello(@Req() req: Request, @Res() res: Response) {
         // webpack 已经解析ejs语法导致， 数据无法被传递页面
-        return res.render(join(__dirname, "../client/index.html"), { data: 11 })
+        return { data: 1212 }
     }
 }
