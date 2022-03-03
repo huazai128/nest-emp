@@ -11,11 +11,11 @@ import { LoggingInterceptor } from '@app/interceptors/logging.interceptor';
 import { Request } from 'express';
 import { get } from 'lodash'
 import logger from '@app/utils/logger';
-import * as bodyParser from 'body-parser'
-import * as compression from 'compression'
-import * as cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
+import compression from 'compression'
+import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
-import * as ejs from 'ejs'
+import ejs from 'ejs'
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -47,7 +47,7 @@ async function bootstrap() {
     await app.listen(APP.PORT);
 
     if (isDevEnv) {
-        logger.debug('1212')
+        // logger.debug('1212')
         // logger.info(`Application is running on: http://${getServerIp()}:${APP.PORT}`);
     }
 
