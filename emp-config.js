@@ -43,16 +43,17 @@ const { join, resolve } = require('path')
             inject: 'body',
             code: `window.INIT_DATA = <%- JSON.stringify(data) %>`
         }))
-    // config.module
-    // .rule("scripts")
-    // .use("babel")
-    // .tap((o) => {
-    //   o.plugins.unshift([
-    //     "import",
-    //     { libraryName: "antd", style: false },
-    //   ]);
-    //   return o;
-    // });
+        config.module
+            .rule("scripts")
+            .use("babel")
+            .tap((o) => {
+                o.plugins.unshift([
+                    "import",
+                    { libraryName: "antd", style: false },
+                    "special-antd",
+                  ]);
+            return o;
+        });
   },
   moduleFederation: {
     name: 'empReact',
