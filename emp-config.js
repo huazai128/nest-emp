@@ -9,7 +9,7 @@ const InlineCodePlugin = require('html-inline-code-plugin');
     return {
       devServer: {
         port: 8083,
-        devMiddleware: { // 这里是开启，就本地访问不了
+        devMiddleware: { // 这里是开启 本地访问不了
           index: true,
           mimeTypes: { phtml: 'text/html' },
           publicPath: './dist/client',

@@ -1,4 +1,4 @@
-import { resolve, join } from 'path'
+import { resolve } from 'path'
 import { environment } from '@app/app.env'
 import { ConfigServer } from '@app/interfaces/config.server'
 import session from 'express-session'
@@ -13,7 +13,7 @@ export const APP = {
 }
 
 export const CROSS_DOMAIN = {
-    allowedOrigins: ['https://admin-test.markiapp.com', 'https://admin.markiapp.com/', 'https://admin-release.markiapp.com/'],
+    allowedOrigins: ['https://admin-test.markiapp.com', 'https://admin.markiapp.com', 'https://admin-release.markiapp.com'],
     allowedReferer: 'markiapp.com',
 }
 

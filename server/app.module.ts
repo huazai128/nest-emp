@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { SESSION } from '@app/config';
 import RedisStore from 'connect-redis';
 import session from 'express-session';
+import { CorsMiddleware } from './middlewares/core.middleware';
+import { OriginMiddleware } from './middlewares/origin.middleware';
 
 @Module({
     imports: [RedisModule],
@@ -20,6 +22,8 @@ export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(
+                CorsMiddleware,
+                OriginMiddleware,
                 session({
                     store: new (RedisStore(session))({ client: this.redis, logErrors: true }),
                     ...SESSION
