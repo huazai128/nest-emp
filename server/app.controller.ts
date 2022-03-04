@@ -7,12 +7,26 @@ import { join } from 'path'
 export class AppController {
     constructor(private readonly appService: AppService) { }
 
+    /**
+     * 请求接口； 注入res，就必须使用res,返回
+     * @param {Request} req
+     * @return {*} 
+     * @memberof AppController
+     */
     @Get()
-    getHello(@Req() req: Request) {
+    getApi(@Req() req: Request) {
         return { data: 121122 }
     }
+
+    /**
+     * 渲染页面
+     * @param {Request} req
+     * @return {*} 
+     * @memberof AppController
+     */
     @Get('test')
-    getTest(@Req() req: Request, @Res() res: Response) { // 注入了res, 就必须res结束，不然会卡住
-        return res.render(join(__dirname, "../client/index.html"), { data: 11 })
+    @Render('index')
+    getTest(@Req() req: Request,) {
+        return { data: 11 }
     }
 }

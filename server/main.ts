@@ -27,7 +27,8 @@ async function bootstrap() {
         redirect: false,
     })
 
-    app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    // app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.setBaseViewsDir(join(__dirname, '../../dist/client'));
     app.setViewEngine('html');
     app.engine('html', ejs.renderFile);
 
