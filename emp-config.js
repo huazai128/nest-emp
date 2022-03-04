@@ -1,5 +1,5 @@
-const { join, resolve } = require('path')
 const InlineCodePlugin = require('html-inline-code-plugin');
+const { join, resolve } = require('path')
 
 /**
  * @type {import('@efox/emp-cli').EMPConfig}
@@ -34,12 +34,12 @@ const InlineCodePlugin = require('html-inline-code-plugin');
         }
         return args
         })
-      config.plugin('InlineCodePlugin').use(new InlineCodePlugin({
+    config.plugin('InlineCodePlugin').use(new InlineCodePlugin({
         begin: false,
         tag: 'script',
         inject: 'body',
         code: `window.INIT_DATA = '<%= data %>'`
-      }))
+    }))
   },
   moduleFederation: {
     name: 'empReact',

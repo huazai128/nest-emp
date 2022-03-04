@@ -27,8 +27,9 @@ export class TransformInterceptor<T>
         return next.handle()
             .pipe(
                 map((data) => {
+                    console.log(data, '({ data })')
                     return ({ data })
-                }),
+                })
             );
     }
 }
