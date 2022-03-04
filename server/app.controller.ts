@@ -26,7 +26,8 @@ export class AppController {
      */
     @Get('test')
     @Render('index')
-    getTest(@Req() req: Request,) {
-        return { data: 11 }
+    getTest(@Req() req: Request) {
+        // return res.render(join('../client.html'), { data: 1212 })
+        return { data: 121212 }
     }
 }

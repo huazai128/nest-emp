@@ -6,8 +6,8 @@ import { join, resolve } from 'path';
 import { isDevEnv } from '@app/app.env';
 import rateLimit from 'express-rate-limit'
 import { COOKIE_KEY, APP } from '@app/config';
-import { TransformInterceptor } from '@app/interceptors/transform.interceptor';
 import { LoggingInterceptor } from '@app/interceptors/logging.interceptor';
+import { ErrorInterceptor } from '@app/interceptors/error.interceptor';
 import { Request } from 'express';
 import { get } from 'lodash'
 import logger from '@app/utils/logger';
@@ -21,13 +21,10 @@ async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
     app.useStaticAssets(join(__dirname, '..', 'public'));
-    app.useStaticAssets(resolve(__dirname, '../../dist/client'), {
-        maxAge: !isDevEnv ? 30 * 24 * 3600 * 1000 : 0,
-        index: false,
-        redirect: false,
-    })
+    app.useStaticAssets(resolve(__dirname, '../../dist/client'))
 
-    // app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    // 这里是单页应用
+    // app.setBaseViewsDir(join(__dirname, '../..', 'views'));
     app.setBaseViewsDir(join(__dirname, '../../dist/client'));
     app.setViewEngine('html');
     app.engine('html', ejs.renderFile);
@@ -43,14 +40,13 @@ async function bootstrap() {
     })
     app.use(morgan(':remote-addr - [:userId] - :remote-user ":method :url HTTP/:http-version" ":referrer" ":user-agent" :status :res[content-length] - :response-time ms'))
 
-    app.useGlobalInterceptors(new LoggingInterceptor())
+    // app.useGlobalInterceptors(new LoggingInterceptor(), new ErrorInterceptor())
 
     await app.listen(APP.PORT);
 
     if (isDevEnv) {
         logger.info(`Application is running on: http://${getServerIp()}:${APP.PORT}`);
     }
-
 }
 
 bootstrap();

@@ -21,6 +21,7 @@ const { join, resolve } = require('path')
   },
   webpackChain(config) {
     config.output.path(join(__dirname, "./dist/client"))
+    config.resolve.alias.set("@src", resolve(__dirname, "./src"));
     config
       .plugin('html') 
         .tap(args => {

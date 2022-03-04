@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import logger from '@app/utils/logger';
 
 export interface HttpResponse<T> {
     data: T;
@@ -26,10 +25,7 @@ export class TransformInterceptor<T>
     intercept(context: ExecutionContext, next: CallHandler<T>): Observable<HttpResponse<T>> {
         return next.handle()
             .pipe(
-                map((data) => {
-                    console.log(data, '({ data })')
-                    return ({ data })
-                })
+                map((data) => ({ data }))
             );
     }
 }
