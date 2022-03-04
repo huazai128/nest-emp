@@ -27,7 +27,7 @@ const renderMessage = (color: any, messages: any[]) => {
 const renderLog = (method: LoggerLevel, levelLabel: string, messageColor: any) => {
     return (message: string, ...args: any) => {
         return console[method](
-            chalk.greenBright(`[NP]`),
+            chalk.greenBright(`[NEST]`),
             renderTime(),
             levelLabel,
             renderModule(message),
@@ -39,9 +39,9 @@ const renderLog = (method: LoggerLevel, levelLabel: string, messageColor: any) =
 const createLogger = () => {
     return {
         debug: renderLog(LoggerLevel.Debug, chalk.cyan('[DEBUG]'), chalk.cyanBright),
-        // info: renderLog(LoggerLevel.Info, chalk.blue('[_INFO]'), chalk.greenBright),
-        // warn: renderLog(LoggerLevel.Warn, chalk.yellow('[_WARN]'), chalk.yellowBright),
-        // error: renderLog(LoggerLevel.Error, chalk.red('[ERROR]'), chalk.redBright),
+        info: renderLog(LoggerLevel.Info, chalk.blue('[_INFO]'), chalk.greenBright),
+        warn: renderLog(LoggerLevel.Warn, chalk.yellow('[_WARN]'), chalk.yellowBright),
+        error: renderLog(LoggerLevel.Error, chalk.red('[ERROR]'), chalk.redBright),
     }
 }
 

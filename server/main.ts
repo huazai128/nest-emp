@@ -47,8 +47,7 @@ async function bootstrap() {
     await app.listen(APP.PORT);
 
     if (isDevEnv) {
-        // logger.debug('1212')
-        // logger.info(`Application is running on: http://${getServerIp()}:${APP.PORT}`);
+        logger.info(`Application is running on: http://${getServerIp()}:${APP.PORT}`);
     }
 
 }

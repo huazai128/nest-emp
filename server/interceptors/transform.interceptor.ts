@@ -8,22 +8,31 @@ import { Response } from 'express'
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { join } from 'path'
+import logger from '@app/utils/logger';
+import { renderHtml } from '@app/utils/render';
 
 export interface HttpResponse<T> {
     data: T;
 }
 
+/**
+ * 此处指拦截接口请求
+ * @export
+ * @class TransformInterceptor
+ * @implements {NestInterceptor<T, HttpResponse<T>>}
+ * @template T
+ */
 @Injectable()
 export class TransformInterceptor<T>
-    implements NestInterceptor<T, HttpResponse<T> | Response>
+    implements NestInterceptor<T, HttpResponse<T>>
 {
-    intercept(context: ExecutionContext, next: CallHandler<T>): Observable<HttpResponse<T> | Response> {
+    intercept(context: ExecutionContext, next: CallHandler<T>): Observable<HttpResponse<T>> {
         const res = context.switchToHttp().getResponse()
-        // console.log('响应拦截器数据，此时可以对数据进行处理哈')
+        const req = context.switchToHttp().getRequest<Request>();
         return next.handle()
             .pipe(
-                map(data => {
-                    return res.render(join(__dirname, "../../client/index.html"), data)
+                map((data) => {
+                    return ({ data })
                 }),
             );
     }

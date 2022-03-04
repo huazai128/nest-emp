@@ -49,12 +49,6 @@ export class CorsMiddleware implements NestMiddleware {
         response.header('Access-Control-Max-Age', '1728000')
         response.header('Content-Type', 'application/json; charset=utf-8')
 
-        // OPTIONS Request
-        if (req.method === getMethod(RequestMethod.OPTIONS)) {
-            return response.sendStatus(HttpStatus.NO_CONTENT)
-        } else {
-            next()
-            // console.log(1212)
-        }
+        return next()
     }
 }

@@ -21,9 +21,9 @@ const config: ConfigServer = {
         'username': ''
     },
 
-    lruMaxAge: 1,
+    lruMaxAge: 24 * 60 * 60 * 100,
 
-    lruMax: 1,
+    lruMax: 10,
 
     /* 微信相关配置 */
     wxOpenAppId: 'wxc2b795ed9de3592a',
