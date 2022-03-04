@@ -13,9 +13,21 @@ export class AppController {
      * @return {*} 
      * @memberof AppController
      */
-    @Get()
+    @Get('api')
     getApi(@Req() req: Request) {
         return { data: 121122 }
+    }
+
+    /**
+   * 渲染页面
+   * @param {Request} req
+   * @return {*} 
+   * @memberof AppController
+   */
+    @Get('login')
+    @Render('index')
+    login() {
+        return { data: 121212 }
     }
 
     /**
@@ -24,9 +36,10 @@ export class AppController {
      * @return {*} 
      * @memberof AppController
      */
-    @Get('test')
+    @Get()
     @Render('index')
-    getTest(@Req() req: Request) {
-        return { data: 121212 }
+    getTest() {
+        return { data: 12 }
     }
+
 }

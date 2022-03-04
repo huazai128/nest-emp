@@ -8,6 +8,7 @@ import rateLimit from 'express-rate-limit'
 import { COOKIE_KEY, APP } from '@app/config';
 import { LoggingInterceptor } from '@app/interceptors/logging.interceptor';
 import { ErrorInterceptor } from '@app/interceptors/error.interceptor';
+import { TransformInterceptor } from '@app/interceptors/transform.interceptor';
 import { Request } from 'express';
 import { get } from 'lodash'
 import logger from '@app/utils/logger';
@@ -20,12 +21,11 @@ import ejs from 'ejs'
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-    app.useStaticAssets(join(__dirname, '..', 'public'));
     app.useStaticAssets(resolve(__dirname, '../../dist/client'))
 
     // 这里是单页应用
     // app.setBaseViewsDir(join(__dirname, '../..', 'views'));
-    app.setBaseViewsDir(join(__dirname, '../../dist/client'));
+    app.setBaseViewsDir(join(__dirname, '../../dist/views'));
     app.setViewEngine('html');
     app.engine('html', ejs.renderFile);
 
@@ -40,7 +40,7 @@ async function bootstrap() {
     })
     app.use(morgan(':remote-addr - [:userId] - :remote-user ":method :url HTTP/:http-version" ":referrer" ":user-agent" :status :res[content-length] - :response-time ms'))
 
-    app.useGlobalInterceptors(new LoggingInterceptor(), new ErrorInterceptor())
+    app.useGlobalInterceptors(new TransformInterceptor(), new LoggingInterceptor(), new ErrorInterceptor())
 
     await app.listen(APP.PORT);
 

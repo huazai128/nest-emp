@@ -12,35 +12,47 @@ const { join, resolve } = require('path')
         devMiddleware: { // 这里是开启 本地访问不了
           index: true,
           mimeTypes: { phtml: 'text/html' },
-          publicPath: './dist/client',
+          publicPath: './dist/iews',
           serverSideRender: true,
           writeToDisk: true,
         },
       },
     }
   },
-  webpackChain(config) {
-    config.output.path(join(__dirname, "./dist/client"))
-    config.resolve.alias.set("@src", resolve(__dirname, "./src"));
-    config
-      .plugin('html') 
-        .tap(args => {
-        args[0] = {
-          ...args[0],
-          template: resolve('./views/index.html'),
-          ...{
-            title: '马克水印相机管理后台',
-            files: {}
-          },
-        }
-        return args
-        })
-    config.plugin('InlineCodePlugin').use(new InlineCodePlugin({
-        begin: false,
-        tag: 'script',
-        inject: 'body',
-        code: `window.INIT_DATA = '<%= data %>'`
-    }))
+    webpackChain(config) {
+        config.output.path(join(__dirname, "./dist/client"))
+        config.output.publicPath('/')
+        config.resolve.alias.set("@src", resolve(__dirname, "./src"));
+        config
+        .plugin('html') 
+            .tap(args => {
+            args[0] = {
+            ...args[0],
+                template: resolve('./views/index.html'),
+            filename: resolve('./dist/views/index.html'),
+            ...{
+                title: '马克水印相机管理后台',
+                files: {}
+            },
+            }
+            return args
+            })
+        config.plugin('InlineCodePlugin').use(new InlineCodePlugin({
+            begin: false,
+            tag: 'script',
+            inject: 'body',
+            code: `window.INIT_DATA = <%- JSON.stringify(data) %>`
+        }))
+    // config.module
+    // .rule("scripts")
+    // .use("babel")
+    // .tap((o) => {
+    //   o.plugins.unshift([
+    //     "import",
+    //     { libraryName: "antd", style: false },
+    //   ]);
+    //   return o;
+    // });
   },
   moduleFederation: {
     name: 'empReact',

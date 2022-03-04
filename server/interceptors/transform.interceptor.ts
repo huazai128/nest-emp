@@ -25,14 +25,18 @@ export class TransformInterceptor<T>
 {
     intercept(context: ExecutionContext, next: CallHandler<T>): Observable<HttpResponse<T>> {
         const req = context.switchToHttp().getRequest<Request>();
-        const isApi = req.url.includes('/api/')
         const res = context.switchToHttp().getResponse<Response>()
+
+        const isApi = req.url.includes('/api/')
         if (!isApi) {
-            res.type('html');
+            res.contentType('html')
         }
         return next.handle()
             .pipe(
-                map((data) => ({ data }))
+                map((data) => {
+                    console.log(data)
+                    return ({ data })
+                })
             );
     }
 }
