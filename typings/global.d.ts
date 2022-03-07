@@ -8,4 +8,5 @@ declare interface Window {
  */
 interface IStore {
     globalStore: IGlobalStore.GlobalStore
+    authStore: IAuthStore.AuthStore
 }

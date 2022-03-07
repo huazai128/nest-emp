@@ -1,14 +1,16 @@
 import axios, { AxiosRequestConfig as _AxiosRequestConfig, Method } from 'axios'
+import config from '@src/config'
 import { message } from 'antd'
 
+console.log(config, '====')
 export interface AxiosRequestConfig extends _AxiosRequestConfig {
     startTime?: Date
 }
 
-interface HttpParams {
-    url: string,
-    data: object | FormData,
-    otherConfig?: AxiosRequestConfig,
+export interface HttpParams {
+    transformUrl: string
+    data: object | FormData
+    otherConfig?: AxiosRequestConfig
 }
 
 enum HTTPERROR {
@@ -17,22 +19,22 @@ enum HTTPERROR {
     NETWORKERROR
 }
 
-const DEFAULTCONFIG = {
-    baseURL: process.env.BASEURL,
-}
-
 // 判断请求是否成功
 const isSuccess = (res: any) => (res.code === 200 || res.code === 0)
 // 格式化返回结果
 const resFormat = (res: any) => res.response || res.result || res || {}
 
-function httpCommon<T>(method: Method, { url, data, otherConfig }: HttpParams): Promise<T | any> {
+function httpCommon<T>(method: Method, { data, otherConfig }: HttpParams): Promise<T | any> {
     let axiosConfig: AxiosRequestConfig = {
         method,
-        url,
-        baseURL: '',
+        url: '/api/transform',
+        baseURL: config.apiHost,
     }
-    const instance = axios.create(DEFAULTCONFIG)
+
+    data = { ...data, method } as HttpParams & { method: Method }
+
+    const instance = axios.create()
+
     // 请求拦截
     instance.interceptors.request.use(
         cfg => {
@@ -41,6 +43,7 @@ function httpCommon<T>(method: Method, { url, data, otherConfig }: HttpParams): 
         },
         error => Promise.reject(error)
     )
+
     // 响应拦截
     instance.interceptors.response.use(
         response => {

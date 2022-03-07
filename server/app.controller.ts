@@ -1,7 +1,5 @@
-import { Controller, Get, Render, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Controller, Get, Render } from '@nestjs/common';
 import { AppService } from './app.service';
-import { join } from 'path'
 
 @Controller()
 export class AppController {
@@ -14,7 +12,7 @@ export class AppController {
      * @memberof AppController
      */
     @Get('api')
-    getApi(@Req() req: Request) {
+    getApi() {
         return { data: 121122 }
     }
 

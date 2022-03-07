@@ -1,10 +1,13 @@
 import React from 'react'
 import { Form, Button, Input } from 'antd'
 import { observer } from 'mobx-react-lite'
+import useRootStore from '@src/stores/useRootStore'
 import './style.scss'
 
 function Login() {
+    const { authStore } = useRootStore()
     const onFinish = (values: any) => {
+        authStore.login();
         console.log('Success:', values);
     };
 

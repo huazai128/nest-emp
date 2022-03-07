@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react'
+import { createContext } from 'react'
 
 const StoreContext = createContext<IStore>(null as any)
 
@@ -15,8 +15,5 @@ const RootStoreProvider = ({ store, children }: IProps) => {
     )
 }
 
-const useRootStore = () => {
-    return useContext(StoreContext)
-}
 
-export { RootStoreProvider, useRootStore, StoreContext }
+export { RootStoreProvider, StoreContext }
