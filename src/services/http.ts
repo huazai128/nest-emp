@@ -1,8 +1,6 @@
 import axios, { AxiosRequestConfig as _AxiosRequestConfig, Method } from 'axios'
 import config from '@src/config'
-import { message } from 'antd'
 
-console.log(config, '====')
 export interface AxiosRequestConfig extends _AxiosRequestConfig {
     startTime?: Date
 }
@@ -20,9 +18,9 @@ enum HTTPERROR {
 }
 
 // 判断请求是否成功
-const isSuccess = (res: any) => (res.code === 200 || res.code === 0)
+const isSuccess = (res: any) => (Object.is(res.status, 'success'))
 // 格式化返回结果
-const resFormat = (res: any) => res.response || res.result || res || {}
+const resFormat = (res: any) => res.result || {}
 
 function httpCommon<T>(method: Method, { data, otherConfig }: HttpParams): Promise<T | any> {
     let axiosConfig: AxiosRequestConfig = {
@@ -47,11 +45,11 @@ function httpCommon<T>(method: Method, { data, otherConfig }: HttpParams): Promi
     // 响应拦截
     instance.interceptors.response.use(
         response => {
-            const rdata = typeof response.data === 'object' && !isNaN(response.data.length) ? response.data[0] : response.data
-            if (!isSuccess(rdata)) {
+            const rdata = response.data
+            if (!isSuccess(response)) {
                 return Promise.reject({
-                    msg: rdata.msg,
-                    errCode: rdata.code,
+                    msg: rdata.message,
+                    errCode: rdata.code || 0,
                     type: HTTPERROR[HTTPERROR.LOGICERROR],
                     config: response.config
                 })
@@ -79,8 +77,6 @@ function httpCommon<T>(method: Method, { data, otherConfig }: HttpParams): Promi
         .request(axiosConfig)
         .then(res => res)
         .catch(err => {
-            message.destroy()
-            message.error(err.response || err.msg || err.stack || 'unknown error')
             return Promise.reject(err.msg || err.stack)
         })
 }
@@ -91,20 +87,8 @@ function get<T>(data: HttpParams) {
 function post<T>(data: HttpParams) {
     return httpCommon<T>('post', data)
 }
-function put<T>(data: HttpParams) {
-    return httpCommon<T>('put', data)
-}
-function deleteHttp<T>(data: HttpParams) {
-    return httpCommon<T>('delete', data)
-}
-function patch<T>(data: HttpParams) {
-    return httpCommon<T>('delete', data)
-}
 
 export default {
     get,
     post,
-    put,
-    deleteHttp,
-    patch
 }
