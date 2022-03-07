@@ -1,8 +1,8 @@
 import { useEffect, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom'
-import { RouterCompProps, SwitchRouterProps } from 'src/types'
-import Hello from 'src/page/Hello'
-import Login from 'src/page/Login'
+import { RouterCompProps, SwitchRouterProps } from '@src/types'
+import Hello from '@src/page/Hello'
+import Login from '@src/page/Login'
 
 export default function RouterComp(props: RouterCompProps) {
     return (
@@ -30,7 +30,6 @@ export default function RouterComp(props: RouterCompProps) {
 
 export const SwitchRouter = ({ routes, onChange }: SwitchRouterProps) => {
     const location = useLocation()
-
     useEffect(() => {
         onChange?.()
     }, [location, onChange])

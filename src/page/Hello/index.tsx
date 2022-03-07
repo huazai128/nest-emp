@@ -1,5 +1,5 @@
 import './index.scss'
-import logo from 'src/logo.svg'
+import logo from '@src/logo.svg'
 
 const Hello = () => {
     return (

@@ -7,10 +7,10 @@
             "./src/*"
         ]
     },
+    "experimentalDecorators": true,
+    "typeRoots": [ "node_modules/@types", "./typings"]
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src", "typings"],
   "exclude": ["node_modules", "test", "dist","server", "**/*spec.ts"]
 
 }
