@@ -7,11 +7,6 @@ export interface ConfigServer {
 
     apiPrefix: {
         baseApi: string,
-        interactApi?: string,
-        couponApi?: string,
-        shortKnowledgeApi?: string,
-        innerApi?: string,
-        innerCouponApi?: string
     }
 
     /* redis相关配置 */

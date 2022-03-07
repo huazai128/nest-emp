@@ -8,7 +8,7 @@ export class AuthStore extends StoreExt {
     @action
     login = () => {
         this.api.auth.login({
-            transformUrl: '/login',
+            transfromUrl: '/login',
             data: {},
         })
     }

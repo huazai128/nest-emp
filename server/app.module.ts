@@ -1,4 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+
+// redis and session
 import { RedisModule } from '@app/processors/redis/redis.module';
 import { RedisServer } from '@app/processors/redis/redis.server';
 import { AppController } from './app.controller';
@@ -6,11 +8,17 @@ import { AppService } from './app.service';
 import { SESSION } from '@app/config';
 import RedisStore from 'connect-redis';
 import session from 'express-session';
+
+// middlewares
 import { CorsMiddleware } from './middlewares/core.middleware';
 import { OriginMiddleware } from './middlewares/origin.middleware';
 
+// API 
+import { ApiModule } from './modules/api/api.module';
+
+
 @Module({
-    imports: [RedisModule],
+    imports: [RedisModule, ApiModule],
     controllers: [AppController],
     providers: [AppService],
 })

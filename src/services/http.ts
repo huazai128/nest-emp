@@ -8,7 +8,7 @@ export interface AxiosRequestConfig extends _AxiosRequestConfig {
 }
 
 export interface HttpParams {
-    transformUrl: string
+    transfromUrl: string
     data: object | FormData
     otherConfig?: AxiosRequestConfig
 }
@@ -27,7 +27,7 @@ const resFormat = (res: any) => res.response || res.result || res || {}
 function httpCommon<T>(method: Method, { data, otherConfig }: HttpParams): Promise<T | any> {
     let axiosConfig: AxiosRequestConfig = {
         method,
-        url: '/api/transform',
+        url: '/api/transfrom',
         baseURL: config.apiHost,
     }
 
