@@ -12,7 +12,6 @@ export class ApiConstroller {
 
     @Post('transfrom')
     postTransfrom(@Body() data: any) {
-        logger.info(data)
         return { userId: 12 }
     }
 }
