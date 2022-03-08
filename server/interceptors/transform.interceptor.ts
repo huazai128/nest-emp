@@ -23,22 +23,16 @@ export class TransformInterceptor<T>
     intercept(context: ExecutionContext, next: CallHandler<T>): Observable<T | HttpResponseSuccess<T>> {
         const req = context.switchToHttp().getRequest<Request>();
         const res = context.switchToHttp().getResponse<Response>()
-
         const isApi = req.url.includes('/api/')
         if (!isApi) {
             res.contentType('html')
         }
-
         return next.handle()
             .pipe(
                 map((data) => {
                     const result = isApi ? {
                         status: ResponseStatus.Success,
                         message: '请求成功',
-                        params: {
-                            url: req.url,
-                            method: req.method,
-                        },
                         result: data,
                     } : ({ data })
                     return result

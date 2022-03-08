@@ -29,8 +29,6 @@ function httpCommon<T>(method: Method, { data, otherConfig }: HttpParams): Promi
         baseURL: config.apiHost,
     }
 
-    data = { ...data, method } as HttpParams & { method: Method }
-
     const instance = axios.create()
 
     // 请求拦截
