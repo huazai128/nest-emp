@@ -5,7 +5,7 @@ const config: ConfigServer = {
     /* 接口请求相关配置 */
     requestTimeout: 300000,
 
-    // 代理接口
+    // 代理接口域名
     apiPrefix: {
         baseApi: '',
     },

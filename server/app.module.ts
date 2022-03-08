@@ -16,7 +16,6 @@ import { OriginMiddleware } from './middlewares/origin.middleware';
 // API 
 import { ApiModule } from './modules/api/api.module';
 
-
 @Module({
     imports: [RedisModule, ApiModule],
     controllers: [AppController],

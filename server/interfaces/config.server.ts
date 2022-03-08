@@ -5,6 +5,7 @@ export interface ConfigServer {
 
     userId?: string
 
+
     apiPrefix: {
         baseApi: string,
     }
