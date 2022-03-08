@@ -25,7 +25,7 @@ const renderMessage = (color: any, messages: any[]) => {
 }
 
 const renderLog = (method: LoggerLevel, levelLabel: string, messageColor: any) => {
-    return (message: string, ...args: any) => {
+    return (message: any, ...args: any) => {
         return console[method](
             chalk.greenBright(`[NEST]`),
             renderTime(),

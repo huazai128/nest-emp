@@ -9,7 +9,7 @@ export class AuthStore extends StoreExt {
     @action
     getUserInfo = () => {
         this.api.auth.getUserInfo({
-            transfromUrl: '/getUserInfo',
+            transfromUrl: '/api/getUserInfo',
             data: { name: 12, pass: 1212 }
         })
     }
