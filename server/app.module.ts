@@ -10,6 +10,9 @@ import { SESSION } from '@app/config';
 import RedisStore from 'connect-redis';
 import session from 'express-session';
 
+// http
+import { AxiosModule } from '@app/modules/axios/axios.module';
+
 // middlewares
 import { CorsMiddleware } from '@app/middlewares/core.middleware';
 import { OriginMiddleware } from '@app/middlewares/origin.middleware';
@@ -20,9 +23,11 @@ import { ApiModule } from '@app/modules/api/api.module';
 // Auth
 import { AuthModule } from '@app/modules/auth/auth.module'
 
+
 @Module({
     imports: [
         RedisModule,
+        AxiosModule,
 
         ApiModule,
         AuthModule,

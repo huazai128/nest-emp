@@ -1,18 +1,14 @@
 import { HttpRequest } from "@app/interfaces/request.interface";
-import logger from "@app/utils/logger";
 import { Injectable } from "@nestjs/common";
-import axios, { AxiosResponse } from "axios";
-import { catchError, map, Observable } from "rxjs";
+import { AxiosService } from "@app/modules/axios/axios.service";
 
 @Injectable()
 export class AuthService {
-    constructor() { }
 
+    constructor(private readonly axiosService: AxiosService) { }
     public async login({ transformUrl, transferData }: HttpRequest) {
-        // logger.info(transformUrl)
-        // const res = await axios.get(transformUrl)
-        // console.log(res.data, 'res')
-        // this.httpService.get(transformUrl) // 没有发出请求，难道没有用axios
+        const res = await this.axiosService.post(transformUrl, transferData)
+        console.log(res, 'res')
         return 12
     }
 }

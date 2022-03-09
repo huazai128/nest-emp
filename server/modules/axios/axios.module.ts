@@ -1,8 +1,8 @@
 import { AXIOS_INSTANCE_TOKEN } from "@app/constants/axios.constant";
-import { Module } from "@nestjs/common";
+import { Global, Module } from "@nestjs/common";
 import { AxiosService } from "./axios.service";
 import axios from 'axios'
-
+@Global()
 @Module({
     providers: [
         AxiosService,
@@ -11,6 +11,6 @@ import axios from 'axios'
             useValue: axios
         }
     ],
-    exports: []
+    exports: [AxiosService]
 })
 export class AxiosModule { }
