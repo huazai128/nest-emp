@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
+
 // redis and session
 import { RedisModule } from '@app/processors/redis/redis.module';
 import { RedisServer } from '@app/processors/redis/redis.server';
@@ -16,12 +17,15 @@ import { OriginMiddleware } from '@app/middlewares/origin.middleware';
 // API 
 import { ApiModule } from '@app/modules/api/api.module';
 
-//
+// Auth
+import { AuthModule } from '@app/modules/auth/auth.module'
 
 @Module({
     imports: [
         RedisModule,
+
         ApiModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService],

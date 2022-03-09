@@ -1,4 +1,4 @@
-import { ConfigServer } from '@app/interfaces/config.server'
+import { ConfigServer } from '@app/interfaces/config.interface'
 
 const config: ConfigServer = {
 

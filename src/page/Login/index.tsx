@@ -32,7 +32,7 @@ function Login() {
             >
                 <Form.Item
                     label="账号"
-                    name="username"
+                    name="account"
                     rules={[{ required: true, message: '请输入账号' }]}
                 >
                     <Input />

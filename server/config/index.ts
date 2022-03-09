@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import { environment } from '@app/app.env'
-import { ConfigServer } from '@app/interfaces/config.server'
+import { ConfigServer } from '@app/interfaces/config.interface'
 import session from 'express-session'
 
 const conf = require(resolve(__dirname, `./config.${environment}`))
@@ -28,6 +28,9 @@ export const COOKIE_KEY = '@get-cookie-1212-dffas'
 
 // session 配置
 export const SESSION: session.SessionOptions = {
+    // genid: () => {
+    //     return genuuid
+    // },
     secret: 'sup3rs3cr3t',
     saveUninitialized: false,
     resave: false,

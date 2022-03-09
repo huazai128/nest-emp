@@ -41,15 +41,9 @@ export const QueryParams = createParamDecorator((field: keyof QueryParamsResult,
         referer: request.headers.referer,
     }
 
-    const reqData = request.query || request.params
-    const apiTransferType: any = reqData.apiTransferType || 'baseApi'
-    const data = reqData.transferData || {}
-    const transferUrl = reqData.transferUrl || {}
-    const url = config.apiPrefix[apiTransferType] + transferUrl
-
     const result = {
-        params: request.params.transferUrl ? { url, data } : {},
-        query: request.query.transferUrl ? { url, data } : {},
+        params: request.params,
+        query: request.query,
         cookies: request.cookies,
         visitor,
         request,

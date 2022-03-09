@@ -5,11 +5,10 @@ export class AuthStore extends StoreExt {
 
     @observable userInfo = {}
 
-
     @action
     getUserInfo = () => {
         this.api.auth.getUserInfo({
-            transfromUrl: '/api/getUserInfo',
+            transformUrl: '/api/getUserInfo',
             data: { name: 12, pass: 1212 }
         })
     }
@@ -17,8 +16,9 @@ export class AuthStore extends StoreExt {
     @action
     login = (data: Record<string, string>) => {
         this.api.auth.login({
-            transfromUrl: '/login',
-            data: { data },
+            apiUrl: '/api/login',
+            transformUrl: '/auth/login',
+            data: { ...data },
         })
     }
 }

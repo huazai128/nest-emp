@@ -6,8 +6,9 @@ export interface AxiosRequestConfig extends _AxiosRequestConfig {
 }
 
 export interface HttpParams {
-    transfromUrl: string
-    data: object | FormData
+    transformUrl: string // 转发接口
+    data: object | FormData // 转发参数
+    apiUrl?: string // node 层接口
     otherConfig?: AxiosRequestConfig
     apiTransferType?: string // 对应其他域名，默认不添为baseApi
 }
@@ -23,16 +24,16 @@ const isSuccess = (res: any) => (Object.is(res.status, 'success'))
 // 格式化返回结果
 const resFormat = (res: any) => res.result || {}
 
-function httpCommon<T>(method: Method, { data, otherConfig, ...otherData }: HttpParams): Promise<T | any> {
+function httpCommon<T>(method: Method, { data, otherConfig, apiUrl, ...otherData }: HttpParams): Promise<T | any> {
     let axiosConfig: AxiosRequestConfig = {
         method,
-        url: '/api/transfrom',
+        url: apiUrl || '/api/transform',
         baseURL: config.apiHost,
     }
 
     const instance = axios.create()
 
-    data = { ...otherData, transferData: data, }
+    data = { ...otherData, transferData: { ...data }, }
 
     // 请求拦截
     instance.interceptors.request.use(

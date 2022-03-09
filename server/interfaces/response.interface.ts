@@ -36,3 +36,4 @@ export type HttpResponseSuccess<T> = HttpResponseBase & {
 
 // HTTP response
 export type HttpResponse<T> = HttpResponseError | HttpResponseSuccess<T>
+
