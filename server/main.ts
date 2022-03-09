@@ -1,23 +1,26 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { AppModule } from './app.module';
 import { getServerIp } from '@app/utils/util';
 import { join, resolve } from 'path';
 import { isDevEnv } from '@app/app.env';
-import rateLimit from 'express-rate-limit'
+import { Request } from 'express';
+import { get } from 'lodash'
+
 import { COOKIE_KEY, APP } from '@app/config';
+import { AppModule } from '@app/app.module';
 import { LoggingInterceptor } from '@app/interceptors/logging.interceptor';
 import { ErrorInterceptor } from '@app/interceptors/error.interceptor';
 import { TransformInterceptor } from '@app/interceptors/transform.interceptor';
 import { HttpExceptionFilter } from '@app/filters/error.filter';
-import { Request } from 'express';
-import { get } from 'lodash'
+
 import logger from '@app/utils/logger';
 import bodyParser from 'body-parser'
 import compression from 'compression'
+import rateLimit from 'express-rate-limit'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import ejs from 'ejs'
+
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);

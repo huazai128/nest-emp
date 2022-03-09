@@ -15,10 +15,10 @@ export class AuthStore extends StoreExt {
     }
 
     @action
-    login = () => {
+    login = (data: Record<string, string>) => {
         this.api.auth.login({
             transfromUrl: '/login',
-            data: {},
+            data: { data },
         })
     }
 }

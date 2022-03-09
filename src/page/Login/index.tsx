@@ -12,8 +12,7 @@ function Login() {
     }, [])
 
     const onFinish = (values: any) => {
-        authStore.login();
-        console.log('Success:', values);
+        authStore.login(values);
     };
 
     const onFinishFailed = (errorInfo: any) => {
