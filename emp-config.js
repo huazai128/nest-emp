@@ -1,4 +1,5 @@
 const InlineCodePlugin = require('html-inline-code-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { join, resolve } = require('path')
 
 /**
@@ -42,6 +43,14 @@ const { join, resolve } = require('path')
             tag: 'script',
             inject: 'body',
             code: `window.INIT_DATA = <%- JSON.stringify(data) %>`
+        }))
+        config.plugin('CopyWebpackPlugin').use(new CopyWebpackPlugin({ 
+            patterns: [
+                {
+                  from: resolve(__dirname, "./public"),  
+                  to: resolve(__dirname, "./dist/views"), 
+                }
+             ],
         }))
         config.module
             .rule("scripts")

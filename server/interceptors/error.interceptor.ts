@@ -11,7 +11,6 @@ import { catchError } from 'rxjs/operators';
 /** 
  * 异常映射
  * @class ErrorInterceptor
- * @classdesc catch error when controller Promise rejected
  */
 @Injectable()
 export class ErrorInterceptor implements NestInterceptor {

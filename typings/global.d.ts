@@ -1,5 +1,5 @@
 declare interface Window {
-    INIT_DATA: any
+    INIT_DATA: Record<string, any>
 }
 
 /**

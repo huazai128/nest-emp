@@ -29,6 +29,17 @@ export class AppController {
     }
 
     /**
+     * 错误页面
+     * @return {*} 
+     * @memberof AppController
+     */
+    @Get('error')
+    @Render('error')
+    getError() {
+        return { data: 12 }
+    }
+
+    /**
      * 渲染页面
      * @param {Request} req
      * @return {*} 

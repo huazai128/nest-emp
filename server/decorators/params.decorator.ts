@@ -35,7 +35,7 @@ export const QueryParams = createParamDecorator((field: keyof QueryParamsResult,
     const ip = getServerIp()
 
     const visitor: QueryVisitor = {
-        ip: ip.replace('::ffff:', '').replace('::1', '') || null,
+        ip,
         ua: request.headers['user-agent'],
         origin: request.headers.origin,
         referer: request.headers.referer,

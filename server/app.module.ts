@@ -10,14 +10,19 @@ import RedisStore from 'connect-redis';
 import session from 'express-session';
 
 // middlewares
-import { CorsMiddleware } from './middlewares/core.middleware';
-import { OriginMiddleware } from './middlewares/origin.middleware';
+import { CorsMiddleware } from '@app/middlewares/core.middleware';
+import { OriginMiddleware } from '@app/middlewares/origin.middleware';
 
 // API 
-import { ApiModule } from './modules/api/api.module';
+import { ApiModule } from '@app/modules/api/api.module';
+
+//
 
 @Module({
-    imports: [RedisModule, ApiModule],
+    imports: [
+        RedisModule,
+        ApiModule,
+    ],
     controllers: [AppController],
     providers: [AppService],
 })

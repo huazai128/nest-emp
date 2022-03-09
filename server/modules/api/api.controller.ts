@@ -1,6 +1,5 @@
 import { QueryParams, QueryParamsResult } from '@app/decorators/params.decorator';
-import { Controller, Get, Body, Param, Post } from '@nestjs/common';
-import logger from '@app/utils/logger';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 
 @Controller('api')
 export class ApiConstroller {
@@ -11,7 +10,7 @@ export class ApiConstroller {
     }
 
     @Post('transfrom')
-    postTransfrom(@QueryParams('body') data: QueryParamsResult) {
+    postTransfrom(@Body() data: Record<string, any>) {
         return { userId: 12 }
     }
 }

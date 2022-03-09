@@ -9,6 +9,7 @@ import { COOKIE_KEY, APP } from '@app/config';
 import { LoggingInterceptor } from '@app/interceptors/logging.interceptor';
 import { ErrorInterceptor } from '@app/interceptors/error.interceptor';
 import { TransformInterceptor } from '@app/interceptors/transform.interceptor';
+import { HttpExceptionFilter } from '@app/filters/error.filter';
 import { Request } from 'express';
 import { get } from 'lodash'
 import logger from '@app/utils/logger';
@@ -39,6 +40,8 @@ async function bootstrap() {
         return get(req, 'cookies.userId') || get(req, 'rSession.user.userId') || ''
     })
     app.use(morgan(':remote-addr - [:userId] - :remote-user ":method :url HTTP/:http-version" ":referrer" ":user-agent" :status :res[content-length] - :response-time ms'))
+
+    app.useGlobalFilters(new HttpExceptionFilter())
 
     app.useGlobalInterceptors(new TransformInterceptor(), new LoggingInterceptor(), new ErrorInterceptor())
 
