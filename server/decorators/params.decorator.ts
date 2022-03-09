@@ -3,45 +3,45 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { getServerIp } from '@app/utils/util';
 import { config } from '@app/config';
 
-export interface ParamsVisitor {
+export interface QueryVisitor {
     ip: string | null
     ua?: string
     origin?: string
     referer?: string
 }
 
-export interface ParamsCookies {
+export interface QueryCookies {
     [key: string]: any
 }
 
-export interface ParamsResult {
+export interface QueryParamsResult {
     body: Record<string, string>
     params: Record<string, string>
     query: Record<string, string>
-    cookies: ParamsCookies
-    visitor: ParamsVisitor
+    cookies: QueryCookies
+    visitor: QueryVisitor
     request: Request
 }
 /**
- * Params 自定义装饰器，请求方法解析参数
- * @function Params
- * @example `@Params()`
- * @example `@Params('query')`
+ * QueryParams 自定义装饰器，请求方法解析参数
+ * @function QueryParams
+ * @example `@QueryParams()`
+ * @example `@QueryParams('query')`
  */
-export const Params = createParamDecorator((field: keyof ParamsResult, ctx: ExecutionContext): ParamsResult => {
+export const QueryParams = createParamDecorator((field: keyof QueryParamsResult, ctx: ExecutionContext): QueryParamsResult => {
     const request = ctx.switchToHttp().getRequest<Request>();
 
     // 获取IP
     const ip = getServerIp()
 
-    const visitor: ParamsVisitor = {
+    const visitor: QueryVisitor = {
         ip: ip.replace('::ffff:', '').replace('::1', '') || null,
         ua: request.headers['user-agent'],
         origin: request.headers.origin,
         referer: request.headers.referer,
     }
 
-    const reqData = request.query || request.params || request.body
+    const reqData = request.query || request.params
     const apiTransferType: any = reqData.apiTransferType || 'baseApi'
     const data = reqData.transferData || {}
     const transferUrl = reqData.transferUrl || {}
@@ -50,7 +50,6 @@ export const Params = createParamDecorator((field: keyof ParamsResult, ctx: Exec
     const result = {
         params: request.params.transferUrl ? { url, data } : {},
         query: request.query.transferUrl ? { url, data } : {},
-        body: request.body.transferUrl ? { url, data } : {},
         cookies: request.cookies,
         visitor,
         request,

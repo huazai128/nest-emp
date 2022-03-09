@@ -1,4 +1,4 @@
-import { Params, ParamsResult } from '@app/decorators/params.decorator';
+import { QueryParams, QueryParamsResult } from '@app/decorators/params.decorator';
 import { Controller, Get, Body, Param, Post } from '@nestjs/common';
 import logger from '@app/utils/logger';
 
@@ -6,13 +6,12 @@ import logger from '@app/utils/logger';
 export class ApiConstroller {
 
     @Get('transfrom')
-    getTransfrom(@Params('query') data: ParamsResult) {
-        logger.info(data)
+    getTransfrom(@QueryParams('query') data: QueryParamsResult) {
         return { userId: 12 }
     }
 
     @Post('transfrom')
-    postTransfrom(@Params('body') data: ParamsResult) {
+    postTransfrom(@QueryParams('body') data: QueryParamsResult) {
         return { userId: 12 }
     }
 }
