@@ -1,6 +1,6 @@
 import { isDevEnv } from "@app/app.env";
 import { UnAuthStatus } from "@app/constants/error.constant";
-import { ExceptionInfo, HttpResponseError, ResponseStatus } from "@app/interfaces/response.interface";
+import { ExceptionInfo, HttpResponseError } from "@app/interfaces/response.interface";
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import { Response, Request } from 'express'
 import lodash from 'lodash'
@@ -39,8 +39,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
             data.message = data.message || `Invalid API: ${request.method} > ${request.url}`
         }
 
-        const isUnAuth = UnAuthStatus.includes(status)
-
-        return isApi ? response.status(status).json(data) : response.redirect(isUnAuth ? 'login' : 'error')
+        // 权限问题就重现
+        const isUnAuth = UnAuthStatus.includes(resultStatus)
+        if (isUnAuth) {
+            return response.redirect('login')
+        } else {
+            return isApi ? response.status(status).json(data) : response.redirect('error')
+        }
     }
 }

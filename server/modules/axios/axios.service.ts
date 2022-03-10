@@ -1,8 +1,14 @@
+import { isDevEnv } from "@app/app.env";
+import logger from "@app/utils/logger";
 import { AXIOS_INSTANCE_TOKEN } from "@app/constants/axios.constant";
-import { CustomError } from "@app/errors/custom.error";
 import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import Axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
 
+/**
+ * 没有使用@nest/axios 是因为rxjs版本不一样导致调用接口没有出发请求
+ * @export
+ * @class AxiosService
+ */
 @Injectable()
 export class AxiosService {
 
@@ -26,7 +32,7 @@ export class AxiosService {
     protected makeObservable<T>(
         axios: (...args: any[]) => AxiosPromise<T>,
         ...args: any[]
-    ): Promise<AxiosResponse<T>> | any {
+    ): Promise<AxiosResponse<T>> {
         const config: AxiosRequestConfig = { ...(args[args.length - 1] || {}) };
 
         let cancelSource: CancelTokenSource;
@@ -52,7 +58,7 @@ export class AxiosService {
                 } else {
                     return Promise.reject({
                         msg: rdata.message || '转发接口错误',
-                        errCode: rdata.code || 0,
+                        errCode: rdata.code || HttpStatus.BAD_REQUEST,
                         config: response.config
                     })
                 }
@@ -61,7 +67,7 @@ export class AxiosService {
                 const msg = error.response && ((error.response.data && error.response.data.error) || error.response.statusText)
                 return Promise.reject({
                     msg: msg || error.message || 'network error',
-                    errCode: 502,
+                    errCode: HttpStatus.BAD_REQUEST,
                     config: error.config
                 })
             }
@@ -69,6 +75,9 @@ export class AxiosService {
         return axios(...args)
             .then(res => res)
             .catch((err) => {
+                if (isDevEnv) {
+                    logger.error(err)
+                }
                 throw new HttpException({
                     status: err.errCode,
                     message: err.msg || err.stack
