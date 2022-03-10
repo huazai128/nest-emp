@@ -39,8 +39,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
             data.message = data.message || `Invalid API: ${request.method} > ${request.url}`
         }
 
-        // 权限问题就重现
         const isUnAuth = UnAuthStatus.includes(resultStatus)
+
         if (isUnAuth) {
             return response.redirect('login')
         } else {

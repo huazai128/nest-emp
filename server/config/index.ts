@@ -32,6 +32,7 @@ export const SESSION: session.SessionOptions = {
     //     return genuuid
     // },
     secret: 'sup3rs3cr3t',
+    name: 'sid',
     saveUninitialized: false,
     resave: false,
     cookie: {

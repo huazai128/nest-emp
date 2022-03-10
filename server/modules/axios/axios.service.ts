@@ -1,11 +1,13 @@
 import { isDevEnv } from "@app/app.env";
 import logger from "@app/utils/logger";
+import { UnAuthStatus } from "@app/constants/error.constant";
 import { AXIOS_INSTANCE_TOKEN } from "@app/constants/axios.constant";
-import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import Axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
 
 /**
- * 没有使用@nest/axios 是因为rxjs版本不一样导致调用接口没有出发请求
+ * https://github.com/nestjs/axios
+ * 没有使用@nest/axios 是因为rxjs版本不一样导致调用接口没有出发请求（再次去看居然更新了rxjs, 先用自己这套吧）
  * @export
  * @class AxiosService
  */
@@ -14,14 +16,14 @@ export class AxiosService {
 
     constructor(@Inject(AXIOS_INSTANCE_TOKEN) readonly instance: AxiosInstance = Axios) { }
 
-    public get<T = any>(
+    public get<T>(
         url: string,
         config?: AxiosRequestConfig,
     ): Promise<AxiosResponse<T>> {
         return this.makeObservable<T>(this.instance.get, url, config);
     }
 
-    public post<T = any>(
+    public post<T>(
         url: string,
         data?: any,
         config?: AxiosRequestConfig,
@@ -78,10 +80,17 @@ export class AxiosService {
                 if (isDevEnv) {
                     logger.error(err)
                 }
-                throw new HttpException({
-                    status: err.errCode,
-                    message: err.msg || err.stack
-                }, err.errCode)
+                if (UnAuthStatus.includes(err.errCode)) {
+                    throw new UnauthorizedException({
+                        status: err.errCode,
+                        message: err.msg || err.stack
+                    }, err.errCode)
+                } else {
+                    throw new BadRequestException({
+                        status: err.errCode,
+                        message: err.msg || err.stack
+                    }, err.errCode)
+                }
             })
 
     };

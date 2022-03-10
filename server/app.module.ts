@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import passport from 'passport';
 
 
 // redis and session
@@ -48,7 +49,9 @@ export class AppModule implements NestModule {
                 session({
                     store: new (RedisStore(session))({ client: this.redis, logErrors: true }),
                     ...SESSION
-                })
+                }),
+                passport.initialize(),
+                passport.session(),
             )
             .forRoutes('*');
     }
