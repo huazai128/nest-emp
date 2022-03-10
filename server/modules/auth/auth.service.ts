@@ -7,8 +7,6 @@ export class AuthService {
 
     constructor(private readonly axiosService: AxiosService) { }
     public async login({ transformUrl, transferData }: HttpRequest) {
-        const res = await this.axiosService.post(transformUrl, transferData)
-        console.log(res, 'res')
-        return 12
+        return await this.axiosService.post(transformUrl, transferData)
     }
 }

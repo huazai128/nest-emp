@@ -1,7 +1,7 @@
 import { AXIOS_INSTANCE_TOKEN } from "@app/constants/axios.constant";
-import { Inject, Injectable } from "@nestjs/common";
+import { CustomError } from "@app/errors/custom.error";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import Axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from "axios";
-import { Observable } from "rxjs";
 
 @Injectable()
 export class AxiosService {
@@ -11,23 +11,22 @@ export class AxiosService {
     public get<T = any>(
         url: string,
         config?: AxiosRequestConfig,
-    ): any {
+    ): Promise<AxiosResponse<T>> {
         return this.makeObservable<T>(this.instance.get, url, config);
     }
-
 
     public post<T = any>(
         url: string,
         data?: any,
         config?: AxiosRequestConfig,
-    ): any {
+    ): Promise<AxiosResponse<T>> {
         return this.makeObservable<T>(this.instance.post, url, data, config);
     }
 
     protected makeObservable<T>(
         axios: (...args: any[]) => AxiosPromise<T>,
         ...args: any[]
-    ) {
+    ): Promise<AxiosResponse<T>> | any {
         const config: AxiosRequestConfig = { ...(args[args.length - 1] || {}) };
 
         let cancelSource: CancelTokenSource;
@@ -48,24 +47,32 @@ export class AxiosService {
         this.instance.interceptors.response.use(
             response => {
                 const rdata = response.data
-                console.log(rdata, '=======')
-                return rdata
+                if (rdata.code == 200 || rdata.code == 0) {
+                    return rdata.result
+                } else {
+                    return Promise.reject({
+                        msg: rdata.message || '转发接口错误',
+                        errCode: rdata.code || 0,
+                        config: response.config
+                    })
+                }
             },
             error => {
+                const msg = error.response && ((error.response.data && error.response.data.error) || error.response.statusText)
                 return Promise.reject({
-                    msg: error.response.data.error || error.response.statusText || error.message || 'network error',
+                    msg: msg || error.message || 'network error',
+                    errCode: 502,
                     config: error.config
                 })
             }
         )
-
         return axios(...args)
-            .then(res => {
-                console.log(res)
-                return res
-            })
+            .then(res => res)
             .catch((err) => {
-                console.log(err)
+                throw new HttpException({
+                    status: err.errCode,
+                    message: err.msg || err.stack
+                }, err.errCode)
             })
 
     };

@@ -11,6 +11,6 @@ export class AuthController {
     @Post('login')
     public async adminLogin(@Body(new TransformPipe()) data: HttpRequest) {
         const res = await this.authService.login(data)
-        return { name: 12 };
+        return res
     }
 }

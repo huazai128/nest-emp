@@ -17,20 +17,21 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
-        const status = exception.getStatus();
+        const status = exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
         const isApi = request.url.includes('/api/')
 
         const errorResponse: ExceptionInfo = exception.getResponse() as ExceptionInfo
         const errorMessage = lodash.isObject(errorResponse) ? errorResponse.message : errorResponse
         const errorInfo = lodash.isString(errorResponse) ? null : errorResponse.error
+        const isChildrenError = errorInfo && errorInfo.status && errorInfo.message
+        const resultStatus = isChildrenError ? errorInfo.status : status
 
         const data: HttpResponseError = {
-            status: ResponseStatus.Error,
+            status: resultStatus,
             message: errorMessage,
             error: errorInfo?.message || (lodash.isString(errorInfo) ? errorInfo : JSON.stringify(errorInfo)),
             debug: isDevEnv ? errorInfo?.stack || exception.stack : 0,
         }
-
 
         // default 404
         if (status === HttpStatus.NOT_FOUND) {
@@ -40,11 +41,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
         const isUnAuth = UnAuthStatus.includes(status)
 
-        return isApi ?
-            response.status(status).json({
-                statusCode: status,
-                timestamp: new Date().toISOString(),
-                path: request.url,
-            }) : response.redirect(isUnAuth ? 'login' : 'error')
+        return isApi ? response.status(status).json(data) : response.redirect(isUnAuth ? 'login' : 'error')
     }
 }
