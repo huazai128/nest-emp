@@ -1,7 +1,7 @@
-import { createClient, RedisClientType } from 'redis'
+import { createClient, ClientOpts } from 'redis'
 import { CacheStoreFactory, CacheStoreSetOptions, CacheModuleOptions } from '@nestjs/common'
 
-export type RedisStoreOptions = Parameters<typeof createClient>[0]
+export type RedisStoreOptions = ClientOpts
 export type RedisCacheStore = ReturnType<typeof createRedisStore>
 
 export interface CacheStoreOptions extends CacheModuleOptions {
@@ -30,7 +30,6 @@ const createRedisStore = (options: CacheStoreOptions) => {
     const del = async (key: string) => {
         await client.del(key)
     }
-
     return { set, get, del, client }
 }
 

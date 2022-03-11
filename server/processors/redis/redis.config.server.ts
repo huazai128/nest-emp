@@ -17,14 +17,9 @@ export class RedisConfigServer implements CacheOptionsFactory {
 
     public createCacheOptions(): CacheModuleOptions<Record<string, any>> | Promise<CacheModuleOptions<Record<string, any>>> {
         const redisOptions: RedisStoreOptions = {
-            socket: {
-                host: REDIS.host as string,
-                port: REDIS.port as number,
-                reconnectStrategy: this.retryStrategy.bind(this),
-            },
-        }
-        if (REDIS.username) {
-            redisOptions.username = REDIS.username
+            host: REDIS.host as string,
+            port: REDIS.port as number,
+            retry_strategy: this.retryStrategy.bind(this),
         }
         if (REDIS.password) {
             redisOptions.password = REDIS.password
