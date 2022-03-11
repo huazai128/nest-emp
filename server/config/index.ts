@@ -42,6 +42,6 @@ export const SESSION: session.SessionOptions = {
 
 
 export const AUTH = {
-    jwtTokenSecret: 'nest_emp_srr',
+    jwtTokenSecret: 'nest_emp_ssr',
     expiresIn: 3600,
 }

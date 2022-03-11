@@ -10,7 +10,6 @@ export class RedisServer {
 
     constructor(@Inject(CACHE_MANAGER) cacheManager: Cache) {
         this.cacheStore = cacheManager.store as RedisCacheStore
-        console.log(this.cacheStore)
         this.cacheStore.client.on('connect', () => {
             logger.info('[Redis]', 'connecting...')
         })

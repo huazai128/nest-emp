@@ -10,7 +10,7 @@ import RedisStore from 'connect-redis';
 import session from 'express-session';
 
 // http
-import { AxiosModule } from '@app/modules/axios/axios.module';
+import { AxiosModule } from '@app/processors/axios/axios.module';
 
 // middlewares
 import { CorsMiddleware } from '@app/middlewares/core.middleware';

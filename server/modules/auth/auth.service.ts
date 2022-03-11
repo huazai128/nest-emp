@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { HttpRequest } from "@app/interfaces/request.interface";
-import { AxiosService } from "@app/modules/axios/axios.service";
+import { AxiosService } from "@app/processors/axios/axios.service";
 import { User } from "./auth.interface";
 import { AUTH, config } from "@app/config";
 import { HttpUnauthorizedError } from "@app/errors/unauthorized.error";
