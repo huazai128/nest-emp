@@ -1,5 +1,7 @@
-import { Controller, Get, Render, Session } from '@nestjs/common';
+import { Controller, Get, Render, Req, Session, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
+import { RouterGuard } from './guards/router.guard';
+import { Request } from 'express'
 
 @Controller()
 export class AppController {
@@ -45,9 +47,11 @@ export class AppController {
      * @return {*} 
      * @memberof AppController
      */
+    @UseGuards(RouterGuard)
     @Get()
     @Render('index')
-    getTest() {
+    getTest(@Req() req: Request) {
+        console.log(req.session)
         return { data: 12 }
     }
 

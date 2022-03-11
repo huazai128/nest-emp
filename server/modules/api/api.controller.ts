@@ -11,7 +11,6 @@ export class ApiConstroller {
 
     @Post('transform')
     postTransform(@Body() data: Record<string, any>) {
-        console.log(data, '======data')
         return { userId: 12 }
     }
 }

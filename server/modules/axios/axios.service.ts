@@ -42,40 +42,41 @@ export class AxiosService {
             cancelSource = Axios.CancelToken.source();
             config.cancelToken = cancelSource.token;
         }
-        // 请求拦截
-        this.instance.interceptors.request.use(
-            cfg => {
-                cfg.params = { ...cfg.params, ts: Date.now() / 1000 }
-                return cfg
-            },
-            error => Promise.reject(error)
-        )
+        // // 请求拦截  这里只创建一个，后续在优化拦截
+        // this.instance.interceptors.request.use(
+        //     cfg => {
+        //         cfg.params = { ...cfg.params, ts: Date.now() / 1000 }
+        //         return cfg
+        //     },
+        //     error => Promise.reject(error)
+        // )
 
-        // 响应拦截
-        this.instance.interceptors.response.use(
-            response => {
-                const rdata = response.data
-                if (rdata.code == 200 || rdata.code == 0) {
-                    return rdata.result
-                } else {
-                    return Promise.reject({
-                        msg: rdata.message || '转发接口错误',
-                        errCode: rdata.code || HttpStatus.BAD_REQUEST,
-                        config: response.config
-                    })
-                }
-            },
-            error => {
-                const msg = error.response && ((error.response.data && error.response.data.error) || error.response.statusText)
-                return Promise.reject({
-                    msg: msg || error.message || 'network error',
-                    errCode: HttpStatus.BAD_REQUEST,
-                    config: error.config
-                })
-            }
-        )
+        // // 响应拦截
+        // this.instance.interceptors.response.use(
+        //     response => {
+        //         const rdata = response.data || {}
+        //         console.log(rdata, 'rdata', response)
+        //         if (rdata.code == 200 || rdata.code == 0) {
+        //             return rdata.result
+        //         } else {
+        //             return Promise.reject({
+        //                 msg: rdata.message || '转发接口错误',
+        //                 errCode: rdata.code || HttpStatus.BAD_REQUEST,
+        //                 config: response.config
+        //             })
+        //         }
+        //     },
+        //     error => {
+        //         const msg = error.response && ((error.response.data && error.response.data.error) || error.response.statusText)
+        //         return Promise.reject({
+        //             msg: msg || error.message || 'network error',
+        //             errCode: HttpStatus.BAD_REQUEST,
+        //             config: error.config
+        //         })
+        //     }
+        // )
         return axios(...args)
-            .then(res => res)
+            .then((res: any) => res.data && res.data.result || {})
             .catch((err) => {
                 if (isDevEnv) {
                     logger.error(err)

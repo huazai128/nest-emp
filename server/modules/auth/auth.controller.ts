@@ -1,25 +1,24 @@
-import { LocalGuard } from "@app/guards/local.guard";
 import { HttpRequest } from "@app/interfaces/request.interface";
 import { TransformPipe } from "@app/pipes/transform.pipe";
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req, Res } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { Request } from 'express'
+import { Request, Response } from 'express'
 
-@Controller()
+@Controller('api')
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
-    @UseGuards(LocalGuard)
-    @Post('api/login')
-    public async adminLogin(@Req() req: Request) {
-        console.log('============')
-        // const result = await this.authService.login(data)
-        return req.session
+    @Post('login')
+    public async adminLogin(@Req() req: Request, @Body(new TransformPipe()) data: HttpRequest, @Res() res: Response) {
+        const { access_token, ...result } = await this.authService.login(data)
+        res.cookie('jwt', access_token);
+        console.log(result, 'result=======');
+        (req.session as any).user = 1212
+        return res.status(200).jsonp(result)
     }
 
     @Get('user')
-    public async(@Param('id') id: string) {
-        console.log(id)
-        return this.authService.findById({ id })
+    public async getUserInfo(@Param('id') id: string) {
+        return await this.authService.findById({ id })
     }
 }

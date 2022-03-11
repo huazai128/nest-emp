@@ -1,6 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import passport from 'passport';
-
+import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
 // redis and session
 import { RedisModule } from '@app/processors/redis/redis.module';
@@ -34,7 +32,7 @@ import { AuthModule } from '@app/modules/auth/auth.module'
         AuthModule,
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [AppService, Logger],
 })
 export class AppModule implements NestModule {
     private redis: any
@@ -47,11 +45,9 @@ export class AppModule implements NestModule {
                 CorsMiddleware,
                 OriginMiddleware,
                 session({
-                    store: new (RedisStore(session))({ client: this.redis, logErrors: true }),
+                    store: new (RedisStore(session))({ client: this.redis }),
                     ...SESSION
                 }),
-                passport.initialize(),
-                passport.session(),
             )
             .forRoutes('*');
     }

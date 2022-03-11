@@ -28,6 +28,7 @@ export class RedisServer {
             this.isReadied = false
             logger.error('[Redis]', `Client Error!`, error.message)
         })
+        console.log(this.cacheStore.client, 'this.cacheStore.client')
         this.cacheStore.client.connect()
     }
 }

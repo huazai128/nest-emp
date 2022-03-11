@@ -18,7 +18,6 @@ const config: ConfigServer = {
         'host': '211.159.219.193',
         'no_ready_check': true,
         'password': 'WdPTMj6X',
-        'username': ''
     },
 
     lruMaxAge: 24 * 60 * 60 * 100,

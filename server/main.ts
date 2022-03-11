@@ -37,7 +37,7 @@ async function bootstrap() {
     app.use(bodyParser.json({ limit: '1mb' }))
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(rateLimit({ max: 1000, windowMs: 15 * 60 * 1000 }))
-    app.use(cookieParser(COOKIE_KEY))
+    app.use(cookieParser())
 
     morgan.token('userId', (req: Request) => {
         return get(req, 'cookies.userId') || get(req, 'rSession.user.userId') || ''

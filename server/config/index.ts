@@ -28,16 +28,20 @@ export const COOKIE_KEY = '@get-cookie-1212-dffas'
 
 // session 配置
 export const SESSION: session.SessionOptions = {
-    // genid: () => {
-    //     return genuuid
-    // },
     secret: 'sup3rs3cr3t',
     name: 'sid',
     saveUninitialized: false,
     resave: false,
     cookie: {
         sameSite: true,
-        httpOnly: false,
-        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000,
     },
+    rolling: true,
+}
+
+
+export const AUTH = {
+    jwtTokenSecret: 'nest_emp_srr',
+    expiresIn: 3600,
 }
