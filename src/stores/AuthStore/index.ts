@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx'
 import { StoreExt } from '@src/utils/reactExt';
+import { routerStore } from '..';
 
 export class AuthStore extends StoreExt {
 
@@ -14,12 +15,15 @@ export class AuthStore extends StoreExt {
     }
 
     @action
-    login = (data: Record<string, string>) => {
-        this.api.auth.login({
+    login = async (data: Record<string, string>) => {
+        const res = await this.api.auth.login({
             apiUrl: '/api/login',
             transformUrl: '/auth/login',
             data: { ...data },
         })
+        if (res.userId) {
+            routerStore.history.push('/')
+        }
     }
 }
 

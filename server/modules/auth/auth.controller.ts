@@ -3,6 +3,7 @@ import { TransformPipe } from "@app/pipes/transform.pipe";
 import { Body, Controller, Get, Param, Post, Req, Res } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { Request, Response } from 'express'
+import { ResponseStatus } from "@app/interfaces/response.interface";
 
 @Controller('api')
 export class AuthController {
@@ -10,11 +11,14 @@ export class AuthController {
 
     @Post('login')
     public async adminLogin(@Req() req: Request, @Body(new TransformPipe()) data: HttpRequest, @Res() res: Response) {
-        const { access_token, ...result } = await this.authService.login(data)
+        const { access_token, token, ...result } = await this.authService.login(data)
         res.cookie('jwt', access_token);
-        console.log(result, 'result=======');
-        (req.session as any).user = 1212
-        return res.status(200).jsonp(result)
+        (req.session as any).user = result
+        return res.status(200).send({
+            result: result,
+            status: ResponseStatus.Success,
+            message: '请求成功',
+        })
     }
 
     @Get('user')

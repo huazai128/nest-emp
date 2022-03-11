@@ -17,12 +17,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
-        const status = exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
+        const status = exception.getStatus && exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
         const isApi = request.url.includes('/api/')
 
-        const errorResponse: ExceptionInfo = exception.getResponse() as ExceptionInfo
+        const errorResponse: ExceptionInfo = exception.getResponse && exception.getResponse() as ExceptionInfo
         const errorMessage = lodash.isObject(errorResponse) ? errorResponse.message : errorResponse
-        const errorInfo = lodash.isString(errorResponse) ? null : errorResponse.error
+        const errorInfo = lodash.isObject(errorResponse) ? errorResponse.error : null
         const isChildrenError = errorInfo && errorInfo.status && errorInfo.message
         const resultStatus = isChildrenError ? errorInfo.status : status
 
@@ -40,7 +40,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         }
 
         const isUnAuth = UnAuthStatus.includes(resultStatus)
-
         if (isUnAuth) {
             return response.redirect('login')
         } else {

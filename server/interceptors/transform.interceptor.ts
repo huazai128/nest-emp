@@ -20,7 +20,7 @@ import { HttpResponseSuccess, ResponseStatus } from '@app/interfaces/response.in
 export class TransformInterceptor<T>
     implements NestInterceptor<T, T | HttpResponseSuccess<T>>
 {
-    intercept(context: ExecutionContext, next: CallHandler<T>): Observable<T | HttpResponseSuccess<T>> {
+    intercept(context: ExecutionContext, next: CallHandler<T>): Observable<T | HttpResponseSuccess<T>> | any {
         const req = context.switchToHttp().getRequest<Request>();
         const res = context.switchToHttp().getResponse<Response>()
         const isApi = req.url.includes('/api/')

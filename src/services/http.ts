@@ -48,7 +48,7 @@ function httpCommon<T>(method: Method, { data, otherConfig, apiUrl, ...otherData
     instance.interceptors.response.use(
         response => {
             const rdata = response.data
-            if (!isSuccess(response)) {
+            if (!isSuccess(rdata)) {
                 return Promise.reject({
                     msg: rdata.message,
                     errCode: rdata.code || 0,
@@ -79,6 +79,7 @@ function httpCommon<T>(method: Method, { data, otherConfig, apiUrl, ...otherData
         .request(axiosConfig)
         .then(res => res)
         .catch(err => {
+            console.log(err, '21212')
             return Promise.reject(err.msg || err.stack)
         })
 }
