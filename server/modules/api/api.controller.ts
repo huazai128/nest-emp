@@ -1,11 +1,12 @@
 import { QueryParams, QueryParamsResult } from '@app/decorators/params.decorator';
+import { TransformPipe } from '@app/pipes/transform.pipe';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 
 @Controller('api')
 export class ApiConstroller {
 
     @Get('transform')
-    getTransform(@QueryParams('query') data: QueryParamsResult) {
+    getTransform(@QueryParams('query', new TransformPipe()) data: QueryParamsResult) {
         return { userId: 12 }
     }
 

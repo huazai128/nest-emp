@@ -17,7 +17,7 @@ export class AuthController {
         return res.status(200).send({
             result: result,
             status: ResponseStatus.Success,
-            message: '请求成功',
+            message: '登录成功',
         })
     }
 
