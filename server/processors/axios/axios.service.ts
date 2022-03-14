@@ -1,9 +1,8 @@
 import { isDevEnv } from "@app/app.env";
 import logger from "@app/utils/logger";
 import { UnAuthStatus } from "@app/constants/error.constant";
-import { AXIOS_INSTANCE_TOKEN } from "@app/constants/axios.constant";
-import { BadRequestException, HttpException, HttpStatus, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
-import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosResponse, CancelTokenSource, Method } from "axios";
+import { BadRequestException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
+import axios, { AxiosRequestConfig, AxiosResponse, CancelTokenSource, Method } from "axios";
 
 /**
  * https://github.com/nestjs/axios

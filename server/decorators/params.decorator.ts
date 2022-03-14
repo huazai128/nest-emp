@@ -33,6 +33,8 @@ export const QueryParams = createParamDecorator((field: keyof QueryParamsResult,
 
     // 获取IP
     const ip = getServerIp()
+    const isAuthenticated = request.isAuthenticated()
+    console.log(isAuthenticated, 'isAuthenticated')
 
     const visitor: QueryVisitor = {
         ip,

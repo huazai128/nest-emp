@@ -9,6 +9,7 @@ export class ApiGuard extends LoggedInGuard {
         return super.canActivate(context)
     }
     handleRequest(error, authInfo, errInfo) {
+        console.log(authInfo, errInfo)
         const validToken = Boolean(authInfo)
         const emptyToken = !authInfo && errInfo?.message === 'No auth token'
         if (!error && (validToken || emptyToken)) {
