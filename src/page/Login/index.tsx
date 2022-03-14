@@ -2,17 +2,21 @@ import React, { useEffect } from 'react'
 import { Form, Button, Input } from 'antd'
 import { observer } from 'mobx-react-lite'
 import useRootStore from '@src/stores/useRootStore'
+import { useHistory } from 'react-router-dom'
 import './style.scss'
 
 function Login() {
     const { authStore } = useRootStore()
+    const history = useHistory()
 
     useEffect(() => {
         authStore.getUserInfo();
     }, [])
 
     const onFinish = (values: any) => {
-        authStore.login(values);
+        authStore.login(values, () => {
+            history.push('/')
+        });
     };
 
     const onFinishFailed = (errorInfo: any) => {
