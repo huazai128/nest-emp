@@ -1,4 +1,4 @@
-import { QueryParams, QueryParamsResult } from '@app/decorators/params.decorator';
+import { QueryParams } from '@app/decorators/params.decorator';
 import { ApiGuard } from '@app/guards/api.guard';
 import { HttpRequest } from '@app/interfaces/request.interface';
 import { TransformPipe } from '@app/pipes/transform.pipe';
@@ -12,8 +12,7 @@ export class ApiConstroller {
 
     @UseGuards(ApiGuard)
     @Get('transform')
-    getTransform(@QueryParams(new TransformPipe(), 'query') data: HttpRequest) {
-        console.log(data, 'data========')
+    getTransform(@QueryParams('query', new TransformPipe()) data: HttpRequest) {
         return this.apiService.get(data)
     }
 

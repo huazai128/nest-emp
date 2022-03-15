@@ -40,10 +40,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
         }
 
         const isUnAuth = UnAuthStatus.includes(resultStatus)
+        console.log(isUnAuth, isApi)
         if (isUnAuth) {
             return response.redirect('login')
         } else {
-            return isApi ? response.status(status).json(data) : response.redirect('error')
+            // return isApi ? response.status(status).json(data) : response.redirect('error')
+            return response.status(status).json(data)
         }
     }
 }

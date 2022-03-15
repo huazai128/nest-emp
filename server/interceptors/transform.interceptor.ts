@@ -10,7 +10,7 @@ import { Response } from 'express'
 import { HttpResponseSuccess, ResponseStatus } from '@app/interfaces/response.interface';
 
 /**
- * 此处指拦截接口请求, 处理接口返回
+ * 拦截
  * @export
  * @class TransformInterceptor
  * @implements {NestInterceptor<T, HttpResponse<T>>}
@@ -29,7 +29,7 @@ export class TransformInterceptor<T>
         }
         return next.handle()
             .pipe(
-                map((data) => {
+                map((data: any) => {
                     const result = isApi ? {
                         status: ResponseStatus.Success,
                         message: '请求成功',

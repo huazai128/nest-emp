@@ -13,6 +13,10 @@ export interface HttpParams {
     apiTransferType?: string // 对应其他域名，默认不添为baseApi
 }
 
+export type GetParmas = Omit<HttpParams, 'data' | 'otherConfig' | 'apiUrl'> & {
+    transferData: any
+}
+
 enum HTTPERROR {
     LOGICERROR,
     TIMEOUTERROR,
@@ -33,7 +37,7 @@ function httpCommon<T>(method: Method, { data, otherConfig, apiUrl, ...otherData
 
     const instance = axios.create()
 
-    data = { ...otherData, transferData: { ...data }, }
+    const newData: GetParmas = { ...otherData, transferData: { ...data } } as GetParmas
 
     // 请求拦截
     instance.interceptors.request.use(
@@ -67,9 +71,9 @@ function httpCommon<T>(method: Method, { data, otherConfig, apiUrl, ...otherData
         }
     )
     if (method === 'get') {
-        axiosConfig.params = data
+        axiosConfig.params = { transformUrl: newData.transformUrl, ...newData.transferData }
     } else {
-        axiosConfig.data = data
+        axiosConfig.data = newData
     }
     axiosConfig.startTime = new Date()
     if (otherConfig) {

@@ -1,4 +1,3 @@
-import { isDevEnv } from "@app/app.env";
 import logger from "@app/utils/logger";
 import { UnAuthStatus } from "@app/constants/error.constant";
 import { BadRequestException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
@@ -61,8 +60,8 @@ export class AxiosService {
         instance.interceptors.response.use(
             response => {
                 const rdata = response.data || {}
-                console.log(rdata, 'rdata')
                 if (rdata.code == 200 || rdata.code == 0) {
+                    logger.info(`转发请求接口成功=${url}, 获取数据${JSON.stringify(rdata.result).slice(0, 350)}`)
                     return rdata.result
                 } else {
                     return Promise.reject({
@@ -93,9 +92,7 @@ export class AxiosService {
             .request(axiosConfig)
             .then((res: any) => res || {})
             .catch((err) => {
-                if (isDevEnv) {
-                    logger.error(err)
-                }
+                logger.error(`转发请求接口=${url},参数为=${JSON.stringify(data)},错误原因=${err.msg || '请求报错了'}; 请求接口状态code=${err.errCode}`)
                 if (UnAuthStatus.includes(err.errCode)) {
                     throw new UnauthorizedException({
                         status: err.errCode,

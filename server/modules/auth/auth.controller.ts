@@ -7,6 +7,7 @@ import { ResponseStatus } from "@app/interfaces/response.interface";
 
 @Controller('api')
 export class AuthController {
+
     constructor(private readonly authService: AuthService) { }
 
     @Post('login')

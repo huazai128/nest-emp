@@ -27,7 +27,9 @@ export class AppController {
     @Get('error')
     @Render('error')
     getError(@Res() res: Response) {
-        return res.status(302).redirect('/login')
+        res.redirect('/login')
+        res.end();
+        return
     }
 
     /**

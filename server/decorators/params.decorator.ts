@@ -1,13 +1,17 @@
 import { Request } from 'express'
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { getServerIp } from '@app/utils/util';
-import { config } from '@app/config';
 
 export interface QueryVisitor {
     ip: string | null
     ua?: string
     origin?: string
     referer?: string
+}
+
+export interface UserInfo {
+    userId: string,
+    name: string;
 }
 
 export interface QueryCookies {
@@ -33,8 +37,8 @@ export const QueryParams = createParamDecorator((field: keyof QueryParamsResult,
 
     // 获取IP
     const ip = getServerIp()
-    const isAuthenticated = request.isAuthenticated()
-    console.log(isAuthenticated, 'isAuthenticated')
+    // 只有鉴权配置了，才能访问这个属性
+    const isAuthenticated = !!request.isAuthenticated && request.isAuthenticated()
 
     const visitor: QueryVisitor = {
         ip,
@@ -42,11 +46,16 @@ export const QueryParams = createParamDecorator((field: keyof QueryParamsResult,
         origin: request.headers.origin,
         referer: request.headers.referer,
     }
+    const { transformUrl: pUlr, ...otherParams } = request.params || {}
+    const { transformUrl: qUlr, ...otherQuery } = request.query || {}
+
+    const user: UserInfo = (request.session as any).user || {}
 
     const result = {
-        params: request.params,
-        query: request.query,
+        params: (!!pUlr && { transformUrl: pUlr, transferData: { ...otherParams, userId: user.userId } }) || {},
+        query: (!!qUlr && { transformUrl: qUlr, transferData: { ...otherQuery, userId: user.userId } }) || {},
         cookies: request.cookies,
+        isAuthenticated: isAuthenticated,
         visitor,
         request,
     }
