@@ -1,4 +1,4 @@
 
-export const WhiteList: Array<string> = [
+export const RouterWhiteList: Array<string> = [
     '/login'
 ]

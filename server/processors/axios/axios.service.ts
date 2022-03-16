@@ -36,7 +36,7 @@ export class AxiosService {
     ): Promise<AxiosResponse<T>> {
 
         let axiosConfig: AxiosRequestConfig = {
-            method,
+            method: method,
             url,
         }
 
@@ -72,10 +72,11 @@ export class AxiosService {
                 }
             },
             error => {
-                const msg = error.response && ((error.response.data && error.response.data.error) || error.response.statusText)
+                const data = error.response && error.response.data || {}
+                const msg = error.response && (data.error || error.response.statusText)
                 return Promise.reject({
                     msg: msg || error.message || 'network error',
-                    errCode: HttpStatus.BAD_REQUEST,
+                    errCode: data.code || HttpStatus.BAD_REQUEST,
                     config: error.config
                 })
             }

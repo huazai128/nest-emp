@@ -13,7 +13,7 @@ const { join, resolve } = require('path')
         devMiddleware: { // 这里是开启 本地访问不了
           index: true,
           mimeTypes: { phtml: 'text/html' },
-          publicPath: './dist/iews',
+          publicPath: './dist/views',
           serverSideRender: true,
           writeToDisk: true,
         },
@@ -27,16 +27,16 @@ const { join, resolve } = require('path')
         config
         .plugin('html') 
             .tap(args => {
-            args[0] = {
-            ...args[0],
-                template: resolve('./views/index.html'),
-            filename: resolve('./dist/views/index.html'),
-            ...{
-                title: '马克水印相机管理后台',
-                files: {}
-            },
-            }
-            return args
+                args[0] = {
+                    ...args[0],
+                    template: resolve('./views/index.html'),
+                    filename: resolve('./dist/views/index.html'),
+                    ...{
+                        title: '马克水印相机管理后台',
+                        files: {}
+                    },
+                }
+                return args
             })
         config.plugin('InlineCodePlugin').use(new InlineCodePlugin({
             begin: false,
