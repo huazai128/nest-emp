@@ -1,7 +1,9 @@
-import { Controller, Get, Render, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Render, Req, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { RouterGuard } from './guards/router.guard';
 import { Request, Response } from 'express'
+import { QueryParams } from './decorators/params.decorator';
+import { IRequest } from './interfaces/request.interface';
 
 @Controller()
 export class AppController {
@@ -15,8 +17,13 @@ export class AppController {
    */
     @Get('login')
     @Render('index')
-    login() {
-        return { data: 121212 }
+    login(@Req() req: IRequest) {
+        if (req.isLogin) {
+
+        } else {
+            return { data: 121212 }
+        }
+
     }
 
     /**
@@ -26,10 +33,8 @@ export class AppController {
      */
     @Get('error')
     @Render('error')
-    getError(@Res() res: Response) {
-        res.redirect('/login')
-        res.end();
-        return
+    getError() {
+        return { msg: '1212' }
     }
 
     /**

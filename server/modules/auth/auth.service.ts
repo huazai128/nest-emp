@@ -12,7 +12,7 @@ export class AuthService {
     constructor(private readonly axiosService: AxiosService, private readonly jwtService: JwtService) { }
 
     /**
-     * 生产token
+     * 生成token
      * @param {*} data
      * @return {*} 
      * @memberof AuthService

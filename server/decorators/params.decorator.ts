@@ -25,6 +25,7 @@ export interface QueryParamsResult {
     cookies: QueryCookies
     visitor: QueryVisitor
     request: Request
+    isAuthenticated: boolean,
 }
 /**
  * QueryParams 自定义装饰器，请求方法解析参数
@@ -38,7 +39,8 @@ export const QueryParams = createParamDecorator((field: keyof QueryParamsResult,
     // 获取IP
     const ip = getServerIp()
     // 只有鉴权配置了，才能访问这个属性
-    const isAuthenticated = !!request.isAuthenticated && request.isAuthenticated()
+    const isAuthenticated = request.isAuthenticated()
+
 
     const visitor: QueryVisitor = {
         ip,
