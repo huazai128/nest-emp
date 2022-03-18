@@ -10,8 +10,6 @@ export interface ConfigServer {
         baseApi: string,
     }
 
-    /* redis相关配置 */
-    redisExpire: number
     redisConf: {
         port: number,
         host: string,
@@ -21,13 +19,6 @@ export interface ConfigServer {
         username?: string
     }
 
-    /* lru缓存相关配置 */
-    lruMaxAge: number
-    lruMax: number
-
-    /* 微信相关配置 */
     wxOpenAppId?: string
 
-    // app UA信息
-    client_params_keys?: Array<string>
 }
