@@ -37,10 +37,10 @@ async function bootstrap() {
     app.use(bodyParser.json({ limit: '1mb' }))
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(rateLimit({ max: 1000, windowMs: 15 * 60 * 1000 }))
-    app.use(cookieParser())
+    app.use(cookieParser(COOKIE_KEY))
 
     morgan.token('userId', (req: Request) => {
-        return get(req, 'cookies.userId') || get(req, 'rSession.user.userId') || ''
+        return get(req, 'cookies.userId') || get(req, 'session.user.userId') || ''
     })
     app.use(morgan(':remote-addr - [:userId] - :remote-user ":method :url HTTP/:http-version" ":referrer" ":user-agent" :status :res[content-length] - :response-time ms'))
 

@@ -1,15 +1,9 @@
-
 export interface ConfigServer {
-
     requestTimeout: number
-
     userId?: string
-
-
     apiPrefix: {
         baseApi: string,
     }
-
     redisConf: {
         port: number,
         host: string,
@@ -18,7 +12,5 @@ export interface ConfigServer {
         defaultCacheTTL?: number
         username?: string
     }
-
     wxOpenAppId?: string
-
 }
