@@ -19,7 +19,8 @@ export class AppController {
     @Render('index')
     login(@Req() req: IRequest) {
         if (req.isLogin) {
-
+            // 重定向
+            return { redirectUrl: '/' }
         } else {
             return { data: 121212 }
         }

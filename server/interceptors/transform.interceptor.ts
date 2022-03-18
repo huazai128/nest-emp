@@ -30,6 +30,7 @@ export class TransformInterceptor<T>
         return next.handle()
             .pipe(
                 map((data: any) => {
+                    if (data.redirectUrl) return res.status(301).redirect(data.redirectUrl)
                     const result = isApi ? {
                         status: ResponseStatus.Success,
                         message: '请求成功',

@@ -1,4 +1,5 @@
 import { ConfigServer } from '@app/interfaces/config.interface'
+import { redisConf } from '../../config'
 
 const config: ConfigServer = {
 
@@ -14,10 +15,10 @@ const config: ConfigServer = {
     redisExpire: 60 * 60 * 24,
 
     redisConf: {
-        'port': 63791,
-        'host': '211.159.219.193',
+        'port': redisConf.port,
+        'host': redisConf.host,
         'no_ready_check': true,
-        'password': 'WdPTMj6X',
+        'password': redisConf.password,
     },
 
     lruMaxAge: 24 * 60 * 60 * 100,

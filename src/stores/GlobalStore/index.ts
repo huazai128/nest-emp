@@ -1,6 +1,10 @@
-import { action, observable } from 'mobx'
+import { action, observable, makeObservable } from 'mobx'
 
 export class GlobalStore {
+    constructor() {
+        makeObservable(this)
+    }
+
     @observable num = 1
 
     @action

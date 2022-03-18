@@ -1,7 +1,10 @@
-import { action, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import { StoreExt } from '@src/utils/reactExt';
 export class AuthStore extends StoreExt {
-
+    constructor() {
+        super()
+        makeObservable(this)
+    }
     @observable userInfo = {}
 
     @action
