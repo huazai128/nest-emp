@@ -1,5 +1,6 @@
-import { Controller, Get, Render, } from '@nestjs/common';
+import { Controller, Get, Render } from '@nestjs/common';
 import { AppService } from './app.service';
+
 @Controller()
 export class AppController {
     constructor(private readonly appService: AppService) { }
@@ -9,9 +10,10 @@ export class AppController {
      * @return {*} 
      * @memberof AppController
      */
-    @Get('/error')
+    @Get('error')
     @Render('error')
     getError() {
-        return { msg: '访问了寂寞' }
+        return { msg: '1212' }
     }
+
 }

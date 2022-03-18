@@ -1,5 +1,5 @@
 import { ConfigServer } from '@app/interfaces/config.interface'
-import { redisConf } from '../../config'
+import { redisConf } from '../dev.config'
 
 const config: ConfigServer = {
 

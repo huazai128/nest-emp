@@ -31,7 +31,7 @@ export class RouterController {
      * @memberof AppController
      */
     @Get('error')
-    @Render('error')
+    @Render('../error')
     getError() {
         return { msg: '1212' }
     }
