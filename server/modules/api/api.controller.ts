@@ -10,12 +10,24 @@ export class ApiConstroller {
 
     constructor(private readonly apiService: ApiService) { }
 
+    /**
+     * Get 接口转发
+     * @param {HttpRequest} data
+     * @return {*} 
+     * @memberof ApiConstroller
+     */
     @UseGuards(ApiGuard)
     @Get('transform')
     getTransform(@QueryParams('query', new TransformPipe()) data: HttpRequest) {
         return this.apiService.get(data)
     }
 
+    /**
+     * Post 接口转发
+     * @param {HttpRequest} data
+     * @return {*} 
+     * @memberof ApiConstroller
+     */
     @UseGuards(ApiGuard)
     @Post('transform')
     postTransform(@Body(new TransformPipe()) data: HttpRequest) {

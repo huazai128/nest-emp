@@ -38,7 +38,7 @@ export const QueryParams = createParamDecorator((field: keyof QueryParamsResult,
 
     // 获取IP
     const ip = getServerIp()
-    // 只有鉴权配置了，才能访问这个属性
+    // 只有鉴权配置了，才能访问这个属性 不然会报错的
     const isAuthenticated = request.isAuthenticated()
 
 

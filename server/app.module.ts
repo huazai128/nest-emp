@@ -22,6 +22,9 @@ import { ApiModule } from '@app/modules/api/api.module';
 // Auth
 import { AuthModule } from '@app/modules/auth/auth.module'
 
+// Router 
+import { RouterModule } from '@app/modules/router/router.module';
+
 
 @Module({
     imports: [
@@ -30,6 +33,7 @@ import { AuthModule } from '@app/modules/auth/auth.module'
 
         ApiModule,
         AuthModule,
+        RouterModule
     ],
     controllers: [AppController],
     providers: [AppService, Logger],

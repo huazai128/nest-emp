@@ -10,6 +10,14 @@ export class AuthController {
 
     constructor(private readonly authService: AuthService) { }
 
+    /**
+     * 登录接口
+     * @param {Request} req
+     * @param {HttpRequest} data
+     * @param {Response} res
+     * @return {*} 
+     * @memberof AuthController
+     */
     @Post('login')
     public async adminLogin(@Req() req: Request, @Body(new TransformPipe()) data: HttpRequest, @Res() res: Response) {
         const { access_token, token, ...result } = await this.authService.login(data)
@@ -22,6 +30,12 @@ export class AuthController {
         })
     }
 
+    /**
+     *
+     * @param {string} id
+     * @return {*} 
+     * @memberof AuthController
+     */
     @Get('user')
     public async getUserInfo(@Param('id') id: string) {
         return await this.authService.findById({ id })
